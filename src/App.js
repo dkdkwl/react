@@ -6,6 +6,8 @@ import Content from './components/main/Content';
 import Youtube from './components/sub/Youtube';
 import Gallery from './components/sub/Gallery';
 
+import './scss/style.scss';
+
 function App() {
 	return (
 		<>
