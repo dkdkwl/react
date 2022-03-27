@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import Visual from './components/main/Visual';
@@ -12,12 +12,17 @@ import './scss/style.scss';
 function App() {
 	return (
 		<>
-			<Header />
+			<Switch>
+				<Route exact path='/'>
+					<Header type={'main'} />
+					<Visual />
+					<Content />
+				</Route>
 
-			<Route exact path='/'>
-				<Visual />
-				<Content />
-			</Route>
+				<Route path='/'>
+					<Header type={'sub'} />
+				</Route>
+			</Switch>
 
 			<Route path='/department' component={Department}></Route>
 			<Route path='/youtube' component={Youtube}></Route>

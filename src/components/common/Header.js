@@ -2,13 +2,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-function Header() {
+function Header(props) {
 	const active = { color: 'aqua' };
 	return (
-		<header>
+		<header className={props.type}>
 			<h1>
 				<NavLink activeStyle={active} exact to='/'>
 					LOGO
