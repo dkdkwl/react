@@ -5,7 +5,7 @@ header {
 	padding: 0px 5vw;
 	display: flex;
 	justify-content: space-between;
-	align-content: center;
+	align-items: center;
 	flex-wrap: wrap;
 
 	h1 a {
@@ -27,9 +27,12 @@ header {
 		}
 	}
 
-	.fa-bars {
-		font-size: 20px;
-		color: #fff;
+	.menu {
+		.fa-bars {
+			font-size: 20px;
+			color: #fff;
+			display: block;
+		}
 	}
 }
 
