@@ -20,6 +20,7 @@ function Department() {
 			.get(url)
 			.then((json) => {
 				console.log(json.data.data);
+				setMembers(json.data.data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -32,6 +33,17 @@ function Department() {
 				<h1>Department</h1>
 
 				{/* state에 있는 배열값을 반복돌면서 가상DOM 생성 */}
+				<ul>
+					{members.map((data, idx) => {
+						return (
+							<li key={idx}>
+								<img src={`${path}/img/${data.pic}`} />
+								<h2>{data.name}</h2>
+								<p>{data.position}</p>
+							</li>
+						);
+					})}
+				</ul>
 			</div>
 		</section>
 	);
