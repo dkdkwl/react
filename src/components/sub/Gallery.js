@@ -5,6 +5,7 @@ function Gallery() {
 	const frame = useRef(null);
 	const [items, setItems] = useState([]);
 	const [isPop, setIsPop] = useState(false);
+	const [imgURL, setImgURL] = useState('');
 
 	const api_key = 'feb5dbb632085ee9e53c197d363d1a85';
 	const method = 'flickr.interestingness.getList';
@@ -33,9 +34,19 @@ function Gallery() {
 					<ul>
 						{items.map((item, idx) => {
 							return (
-								<li key={idx} onClick={() => setIsPop(!isPop)}>
+								<li
+									key={idx}
+									onClick={(e) => {
+										setIsPop(!isPop);
+										setImgURL(
+											e.currentTarget
+												.querySelector('img')
+												.getAttribute('data-url')
+										);
+									}}>
 									<img
 										src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
+										data-url={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_b.jpg`}
 									/>
 									<h2>{item.title}</h2>
 								</li>
@@ -44,7 +55,7 @@ function Gallery() {
 					</ul>
 				</div>
 			</section>
-			{/* isPop이 ture일때 팝업출력 */}
+			{/* isPop이 true일때 팝업출력 */}
 			{isPop ? <Popup /> : null}
 		</>
 	);
@@ -52,6 +63,9 @@ function Gallery() {
 	function Popup() {
 		return (
 			<aside className='popup'>
+				<div className='pic'>
+					<img src={imgURL} />
+				</div>
 				<span onClick={() => setIsPop(!isPop)}>close</span>
 			</aside>
 		);
