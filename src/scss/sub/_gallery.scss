@@ -1,0 +1,22 @@
+.gallery {
+	.inner {
+		ul {
+			li {
+				width: 300px;
+				border: 1px solid #aaa;
+				padding: 20px;
+				margin: 20px;
+
+				img {
+					width: 100%;
+				}
+
+				h2 {
+					font: bold 14px/1 'arial';
+					color: #777;
+					margin-top: 20px;
+				}
+			}
+		}
+	}
+}
