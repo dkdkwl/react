@@ -33,7 +33,7 @@ function Gallery() {
 					<ul>
 						{items.map((item, idx) => {
 							return (
-								<li key={idx} onClick={() => setIsPop(true)}>
+								<li key={idx} onClick={() => setIsPop(!isPop)}>
 									<img
 										src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
 									/>
@@ -52,7 +52,7 @@ function Gallery() {
 	function Popup() {
 		return (
 			<aside className='popup'>
-				<span>close</span>
+				<span onClick={() => setIsPop(!isPop)}>close</span>
 			</aside>
 		);
 	}
