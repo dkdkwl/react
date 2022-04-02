@@ -28,7 +28,8 @@
 	background: rgba(0, 0, 0, 0.9);
 	top: 0px;
 	left: 0px;
-	padding: 5vw;
+	padding: 5vw 5vw 7vw;
+	text-align: center;
 
 	span {
 		font: bold 14px/1 'arial';
@@ -53,5 +54,6 @@
 	p {
 		font: 12px/1 'arial';
 		color: #fff;
+		margin-top: 20px;
 	}
 }
