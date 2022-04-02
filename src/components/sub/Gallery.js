@@ -5,7 +5,7 @@ function Gallery() {
 	const frame = useRef(null);
 	const [items, setItems] = useState([]);
 	const [isPop, setIsPop] = useState(false);
-	const [imgURL, setImgURL] = useState('');
+	const [index, setIndex] = useState(0);
 
 	const api_key = 'feb5dbb632085ee9e53c197d363d1a85';
 	const method = 'flickr.interestingness.getList';
@@ -26,6 +26,10 @@ function Gallery() {
 			});
 	}, []);
 
+	useEffect(() => {
+		console.log(index);
+	}, [index]);
+
 	return (
 		<>
 			<section className='gallery' ref={frame}>
@@ -36,17 +40,12 @@ function Gallery() {
 							return (
 								<li
 									key={idx}
-									onClick={(e) => {
+									onClick={() => {
 										setIsPop(!isPop);
-										setImgURL(
-											e.currentTarget
-												.querySelector('img')
-												.getAttribute('data-url')
-										);
+										setIndex(idx);
 									}}>
 									<img
 										src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
-										data-url={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_b.jpg`}
 									/>
 									<h2>{item.title}</h2>
 								</li>
@@ -64,8 +63,11 @@ function Gallery() {
 		return (
 			<aside className='popup'>
 				<div className='pic'>
-					<img src={imgURL} />
+					<img
+						src={`https://live.staticflickr.com/${items[index].server}/${items[index].id}_${items[index].secret}_b.jpg`}
+					/>
 				</div>
+				<p>{items[index].title}</p>
 				<span onClick={() => setIsPop(!isPop)}>close</span>
 			</aside>
 		);
