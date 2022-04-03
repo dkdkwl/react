@@ -35,6 +35,7 @@ function Youtube() {
 								key={idx}
 								onClick={() => {
 									setIsPop(!isPop);
+									setIndex(idx);
 								}}>
 								<div className='inner'>
 									<div className='pic'>
@@ -66,6 +67,12 @@ function Youtube() {
 
 		return (
 			<aside className='popup'>
+				<iframe
+					src={
+						'https://www.youtube.com/embed/' +
+						items[index].snippet.resourceId.videoId
+					}
+					frameBorder='0'></iframe>
 				<span onClick={() => setIsPop(!isPop)}>close</span>
 			</aside>
 		);
