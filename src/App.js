@@ -5,7 +5,8 @@ import Visual from './components/main/Visual';
 import Content from './components/main/Content';
 import Youtube from './components/sub/Youtube';
 import Gallery from './components/sub/Gallery';
-import Department from './components/sub/Department.js';
+import Department from './components/sub/Department';
+import Location from './components/sub/Location';
 
 import './scss/style.scss';
 
@@ -27,6 +28,7 @@ function App() {
 			<Route path='/department' component={Department}></Route>
 			<Route path='/youtube' component={Youtube}></Route>
 			<Route path='/gallery' component={Gallery}></Route>
+			<Route path='/location' component={Location}></Route>
 
 			<Footer />
 		</>
