@@ -26,6 +26,10 @@ function Youtube() {
 				<div className='inner'>
 					<h1>Youtube</h1>
 					{items.map((item, idx) => {
+						let desc = item.snippet.description;
+						let desc_len = desc.length;
+						let date = item.snippet.publishedAt;
+
 						return (
 							<article
 								key={idx}
@@ -36,6 +40,9 @@ function Youtube() {
 									<div className='pic'>
 										<img src={item.snippet.thumbnails.medium.url} />
 									</div>
+									<h2>{item.snippet.title}</h2>
+									<p>{desc_len > 200 ? desc.substr(0, 200) + '...' : desc}</p>
+									<span>{date.split('T')[0]}</span>
 								</div>
 							</article>
 						);
@@ -48,6 +55,14 @@ function Youtube() {
 	);
 
 	function Popup() {
+		useEffect(() => {
+			document.body.style.overflow = 'hidden';
+
+			return () => {
+				document.body.style.overflow = 'auto';
+			};
+		}, []);
+
 		return (
 			<aside className='popup'>
 				<span onClick={() => setIsPop(!isPop)}>close</span>
