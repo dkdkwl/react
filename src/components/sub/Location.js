@@ -5,6 +5,7 @@ function Location() {
 	const container = useRef(null);
 	const { kakao } = window;
 	const [map, setMap] = useState(null);
+	const [traffic, setTraffic] = useState(false);
 
 	useEffect(() => {
 		frame.current.classList.add('on');
@@ -15,9 +16,24 @@ function Location() {
 		};
 
 		const mapInfo = new kakao.maps.Map(container.current, options);
-		//지역변수 map의 인스턴스 정보값을 setMap을 통해서 state map으로 옮겨담음
 		setMap(mapInfo);
 	}, []);
+
+	const handleTraffic = () => {
+		//첨에 컴포넌트가 생성시에는 아직 map state값이 비어있는 상태이기 때문에 map값을 읽을수 없어서 오류가 뜸
+		//그래서 추후 traffic state값이 변경이 되고 그때 map값이 생성되면 동작이 되도록
+		//아래 삼항 연산자를 map값이 있을떄에만 실행하도록 조건문 처리
+		if (map) {
+			traffic
+				? map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
+				: map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+		}
+	};
+
+	useEffect(() => {
+		console.log(traffic);
+		handleTraffic();
+	}, [traffic]);
 
 	return (
 		<section className='location' ref={frame}>
@@ -26,18 +42,7 @@ function Location() {
 
 				<div id='map' ref={container}></div>
 
-				{/* 교통량 보기 버튼 클릭시 state에 등록이 되어 있는 맵 인스턴스에서 프로토타입 메서드 호출 */}
-				<button
-					onClick={() => map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)}>
-					Traffic On
-				</button>
-				{/* 교통량 숨기기 버튼 클릭시 state에 등록이 되어 있는 맵 인스턴스에서 프로토타입 메서드 호출 */}
-				<button
-					onClick={() =>
-						map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
-					}>
-					Traffic Off
-				</button>
+				<button onClick={() => setTraffic(!traffic)}>traffic</button>
 			</div>
 		</section>
 	);
