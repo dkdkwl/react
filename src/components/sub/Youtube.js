@@ -22,7 +22,7 @@ function Youtube() {
 
 	return (
 		<>
-			<section className='gallery' ref={frame}>
+			<section className='youtube' ref={frame}>
 				<div className='inner'>
 					<h1>Youtube</h1>
 					{items.map((item, idx) => {
@@ -56,6 +56,7 @@ function Youtube() {
 
 	function Popup() {
 		useEffect(() => {
+			console.log('pop');
 			document.body.style.overflow = 'hidden';
 
 			return () => {
