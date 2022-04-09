@@ -27,7 +27,7 @@ function Location() {
 		//마커이미지 정보 추가
 		const imageSrc = `${path}/img/marker1.png`;
 		const imageSize = new kakao.maps.Size(232, 99);
-		const imageOption = { offset: new kakao.maps.Point(0, 0) };
+		const imageOption = { offset: new kakao.maps.Point(110, 90) };
 
 		//마커 인스턴스 생성
 		const markerImage = new kakao.maps.MarkerImage(
