@@ -52,8 +52,12 @@ function Location() {
 		}
 	};
 
+	const setCenter = (lat, lng) => {
+		const moveLatLon = new kakao.maps.LatLng(lat, lng);
+		map.setCenter(moveLatLon);
+	};
+
 	useEffect(() => {
-		console.log(traffic);
 		handleTraffic();
 	}, [traffic]);
 
@@ -67,6 +71,13 @@ function Location() {
 				<button onClick={() => setTraffic(!traffic)}>
 					{traffic ? 'traffic ON' : 'traffic OFF'}
 				</button>
+
+				<ul className='branch'>
+					<li onClick={() => setCenter(37.51270099322895, 127.06067154788254)}>
+						본점
+					</li>
+					<li onClick={() => setCenter(37.487626, 126.753045)}>지점1</li>
+				</ul>
 			</div>
 		</section>
 	);
