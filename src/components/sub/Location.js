@@ -6,27 +6,28 @@ function Location() {
 	const { kakao } = window;
 	const [map, setMap] = useState(null);
 	const [traffic, setTraffic] = useState(false);
+	//지점 데이터 정보의 순서값을 관리할 state
+	const [index, setIndex] = useState(2);
 	const path = process.env.PUBLIC_URL;
 
-	//각 지점별 정보값
 	const info = [
 		{
-			title: '본점',
-			latlag: new kakao.maps.LatLng(33.450705, 126.570677),
+			title: '송내역',
+			latlag: new kakao.maps.LatLng(37.487626, 126.753045),
 			imgSrc: path + '/img/marker1.png',
 			imgSize: new kakao.maps.Size(232, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
 		{
-			title: '지점1',
-			latlag: new kakao.maps.LatLng(33.450936, 126.569477),
+			title: '강남 포스코 사거리',
+			latlag: new kakao.maps.LatLng(37.506354, 127.055006),
 			imgSrc: path + '/img/marker2.png',
 			imgSize: new kakao.maps.Size(232, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
 		{
-			title: '지점2',
-			latlag: new kakao.maps.LatLng(33.450879, 126.56994),
+			title: '청담역',
+			latlag: new kakao.maps.LatLng(37.51912, 127.051937),
 			imgSrc: path + '/img/marker3.png',
 			imgSize: new kakao.maps.Size(232, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
@@ -35,50 +36,42 @@ function Location() {
 
 	const [mapInfo, setMapInfo] = useState(info);
 
+	//index를 의존성으로 등록해서
+	//추후 지점 버튼 클릭시 index값이 변경되면
+	//변경된 index의 정보로 지도위치 다시 출력
 	useEffect(() => {
 		frame.current.classList.add('on');
 
+		//맵 화면 출력
+		//지도관련 데이터를 index state 순번의 지도가 출력되도록 수정
 		const option = {
-			center: mapInfo[0].latlag,
+			center: mapInfo[index].latlag,
 			level: 3,
 		};
-
-		//지도 인스턴스 생성해서 호출
 		const mapInstance = new kakao.maps.Map(container.current, option);
 
-		//setMap(mapInstance);
-
+		//마커 출력
 		new kakao.maps.Marker({
-			//위에 있는 인스턴스값을 그대로 활용
-			//기존에 위에구문에 mapInstance를 setMap으로 state로 옮겨담아도
-			//map state에 인스턴스값이  담기는 시점은 해당 useEffect함수가 끝나는 시점이기 때문에
-			//현재시점에서는 위에 있는 지역변수 mapInstance에 담겨있는 값을 활용해야 됨
 			map: mapInstance,
-			position: mapInfo[0].latlag,
-			title: mapInfo[0].title,
+			position: mapInfo[index].latlag,
+			title: mapInfo[index].title,
 			image: new kakao.maps.MarkerImage(
-				mapInfo[0].imgSrc,
-				mapInfo[0].imgSize,
-				mapInfo[0].imgPos
+				mapInfo[index].imgSrc,
+				mapInfo[index].imgSize,
+				mapInfo[index].imgPos
 			),
 		});
 
-		//마지막으로 기존 지도인스턴스를 state에 map에 담으면
-		//다음 리턴문에는 map이라는 state에 담겨있는 mapInstance값을 자유롭게 사용가능함
 		setMap(mapInstance);
-	}, []);
+	}, [index]);
 
+	//트래픽활성 함수
 	const handleTraffic = () => {
 		if (map) {
 			traffic
 				? map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
 				: map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 		}
-	};
-
-	const setCenter = (lat, lng) => {
-		const moveLatLon = new kakao.maps.LatLng(lat, lng);
-		map.setCenter(moveLatLon);
 	};
 
 	useEffect(() => {
@@ -95,6 +88,13 @@ function Location() {
 				<button onClick={() => setTraffic(!traffic)}>
 					{traffic ? 'traffic ON' : 'traffic OFF'}
 				</button>
+
+				<ul>
+					{/* 버튼 클릭시 index state 변경 */}
+					<li onClick={() => setIndex(0)}>송내역 보기</li>
+					<li onClick={() => setIndex(1)}>포스코 사거리 보기</li>
+					<li onClick={() => setIndex(2)}>청담역 보기</li>
+				</ul>
 			</div>
 		</section>
 	);
