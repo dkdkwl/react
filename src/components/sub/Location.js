@@ -46,8 +46,14 @@ function Location() {
 		//지도 인스턴스 생성해서 호출
 		const mapInstance = new kakao.maps.Map(container.current, option);
 
+		//setMap(mapInstance);
+
 		new kakao.maps.Marker({
-			map: mapInstance, //위에 있는 인스턴스값을 그대로 활용
+			//위에 있는 인스턴스값을 그대로 활용
+			//기존에 위에구문에 mapInstance를 setMap으로 state로 옮겨담아도
+			//map state에 인스턴스값이  담기는 시점은 해당 useEffect함수가 끝나는 시점이기 때문에
+			//현재시점에서는 위에 있는 지역변수 mapInstance에 담겨있는 값을 활용해야 됨
+			map: mapInstance,
 			position: mapInfo[0].latlag,
 			title: mapInfo[0].title,
 			image: new kakao.maps.MarkerImage(
@@ -57,7 +63,8 @@ function Location() {
 			),
 		});
 
-		//기존 지도인스턴스를
+		//마지막으로 기존 지도인스턴스를 state에 map에 담으면
+		//다음 리턴문에는 map이라는 state에 담겨있는 mapInstance값을 자유롭게 사용가능함
 		setMap(mapInstance);
 	}, []);
 
