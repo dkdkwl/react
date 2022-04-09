@@ -11,18 +11,26 @@ function Location() {
 		frame.current.classList.add('on');
 
 		const options = {
-			center: new kakao.maps.LatLng(37.512908, 127.0595845),
+			center: new kakao.maps.LatLng(37.51270099322895, 127.06067154788254),
 			level: 3,
 		};
 
 		const mapInfo = new kakao.maps.Map(container.current, options);
 		setMap(mapInfo);
+
+		const markerPosition = new kakao.maps.LatLng(
+			37.51270099322895,
+			127.06067154788254
+		);
+
+		// 마커를 생성합니다
+		const marker = new kakao.maps.Marker({
+			position: markerPosition,
+		});
+		marker.setMap(mapInfo);
 	}, []);
 
 	const handleTraffic = () => {
-		//첨에 컴포넌트가 생성시에는 아직 map state값이 비어있는 상태이기 때문에 map값을 읽을수 없어서 오류가 뜸
-		//그래서 추후 traffic state값이 변경이 되고 그때 map값이 생성되면 동작이 되도록
-		//아래 삼항 연산자를 map값이 있을떄에만 실행하도록 조건문 처리
 		if (map) {
 			traffic
 				? map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
@@ -42,7 +50,9 @@ function Location() {
 
 				<div id='map' ref={container}></div>
 
-				<button onClick={() => setTraffic(!traffic)}>traffic</button>
+				<button onClick={() => setTraffic(!traffic)}>
+					{traffic ? 'traffic ON' : 'traffic OFF'}
+				</button>
 			</div>
 		</section>
 	);
