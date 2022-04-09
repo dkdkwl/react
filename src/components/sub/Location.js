@@ -6,6 +6,7 @@ function Location() {
 	const { kakao } = window;
 	const [map, setMap] = useState(null);
 	const [traffic, setTraffic] = useState(false);
+	const path = process.env.PUBLIC_URL;
 
 	useEffect(() => {
 		frame.current.classList.add('on');
@@ -23,10 +24,23 @@ function Location() {
 			127.06067154788254
 		);
 
-		// 마커를 생성합니다
+		//마커이미지 정보 추가
+		const imageSrc = `${path}/img/marker1.png`;
+		const imageSize = new kakao.maps.Size(232, 99);
+		const imageOption = { offset: new kakao.maps.Point(0, 0) };
+
+		//마커 인스턴스 생성
+		const markerImage = new kakao.maps.MarkerImage(
+			imageSrc,
+			imageSize,
+			imageOption
+		);
+
 		const marker = new kakao.maps.Marker({
 			position: markerPosition,
+			image: markerImage,
 		});
+
 		marker.setMap(mapInfo);
 	}, []);
 
