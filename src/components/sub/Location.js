@@ -33,7 +33,6 @@ function Location() {
 		},
 	];
 
-	//지점별 정보값을 state로 관리
 	const [mapInfo, setMapInfo] = useState(info);
 
 	useEffect(() => {
@@ -43,10 +42,22 @@ function Location() {
 			center: mapInfo[0].latlag,
 			level: 3,
 		};
-		//맵 인스턴스 생성해서 화면에 지도 출력
-		const map = new kakao.maps.Map(container.current, option);
-		//맵 인스턴스 state로 관리
-		setMap(map);
+
+		const mapInstance = new kakao.maps.Map(container.current, option);
+		setMap(mapInstance);
+
+		const marker = new kakao.maps.Marker({
+			map: mapInstance,
+			position: mapInfo[0].latlag,
+			title: mapInfo[0].title,
+			image: new kakao.maps.MarkerImage(
+				mapInfo[0].imgSrc,
+				mapInfo[0].imgSize,
+				mapInfo[0].imgPos
+			),
+		});
+
+		marker.setMap(mapInstance);
 	}, []);
 
 	const handleTraffic = () => {
