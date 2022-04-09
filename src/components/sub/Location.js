@@ -8,40 +8,45 @@ function Location() {
 	const [traffic, setTraffic] = useState(false);
 	const path = process.env.PUBLIC_URL;
 
+	//각 지점별 정보값
+	const info = [
+		{
+			title: '본점',
+			latlag: new kakao.maps.LatLng(33.450705, 126.570677),
+			imgSrc: path + '/img/marker1.png',
+			imgSize: new kakao.maps.Size(232, 99),
+			imgPos: { offset: new kakao.maps.Point(116, 99) },
+		},
+		{
+			title: '지점1',
+			latlag: new kakao.maps.LatLng(33.450936, 126.569477),
+			imgSrc: path + '/img/marker2.png',
+			imgSize: new kakao.maps.Size(232, 99),
+			imgPos: { offset: new kakao.maps.Point(116, 99) },
+		},
+		{
+			title: '지점2',
+			latlag: new kakao.maps.LatLng(33.450879, 126.56994),
+			imgSrc: path + '/img/marker3.png',
+			imgSize: new kakao.maps.Size(232, 99),
+			imgPos: { offset: new kakao.maps.Point(116, 99) },
+		},
+	];
+
+	//지점별 정보값을 state로 관리
+	const [mapInfo, setMapInfo] = useState(info);
+
 	useEffect(() => {
 		frame.current.classList.add('on');
 
-		const options = {
-			center: new kakao.maps.LatLng(37.51270099322895, 127.06067154788254),
+		const option = {
+			center: mapInfo[0].latlag,
 			level: 3,
 		};
-
-		const mapInfo = new kakao.maps.Map(container.current, options);
-		setMap(mapInfo);
-
-		const markerPosition = new kakao.maps.LatLng(
-			37.51270099322895,
-			127.06067154788254
-		);
-
-		//마커이미지 정보 추가
-		const imageSrc = `${path}/img/marker1.png`;
-		const imageSize = new kakao.maps.Size(232, 99);
-		const imageOption = { offset: new kakao.maps.Point(110, 90) };
-
-		//마커 인스턴스 생성
-		const markerImage = new kakao.maps.MarkerImage(
-			imageSrc,
-			imageSize,
-			imageOption
-		);
-
-		const marker = new kakao.maps.Marker({
-			position: markerPosition,
-			image: markerImage,
-		});
-
-		marker.setMap(mapInfo);
+		//맵 인스턴스 생성해서 화면에 지도 출력
+		const map = new kakao.maps.Map(container.current, option);
+		//맵 인스턴스 state로 관리
+		setMap(map);
 	}, []);
 
 	const handleTraffic = () => {
@@ -71,13 +76,6 @@ function Location() {
 				<button onClick={() => setTraffic(!traffic)}>
 					{traffic ? 'traffic ON' : 'traffic OFF'}
 				</button>
-
-				<ul className='branch'>
-					<li onClick={() => setCenter(37.51270099322895, 127.06067154788254)}>
-						본점
-					</li>
-					<li onClick={() => setCenter(37.487626, 126.753045)}>지점1</li>
-				</ul>
 			</div>
 		</section>
 	);
