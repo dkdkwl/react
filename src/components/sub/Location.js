@@ -43,11 +43,11 @@ function Location() {
 			level: 3,
 		};
 
+		//지도 인스턴스 생성해서 호출
 		const mapInstance = new kakao.maps.Map(container.current, option);
-		setMap(mapInstance);
 
-		const marker = new kakao.maps.Marker({
-			map: mapInstance,
+		new kakao.maps.Marker({
+			map: mapInstance, //위에 있는 인스턴스값을 그대로 활용
 			position: mapInfo[0].latlag,
 			title: mapInfo[0].title,
 			image: new kakao.maps.MarkerImage(
@@ -57,7 +57,8 @@ function Location() {
 			),
 		});
 
-		marker.setMap(mapInstance);
+		//기존 지도인스턴스를
+		setMap(mapInstance);
 	}, []);
 
 	const handleTraffic = () => {
