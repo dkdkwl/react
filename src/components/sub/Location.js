@@ -12,7 +12,7 @@ function Location() {
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
 		{
-			title: '강남 포스코 사거리',
+			title: '강남 포스코',
 			latlag: new kakao.maps.LatLng(37.506354, 127.055006),
 			imgSrc: path + '/img/marker2.png',
 			imgSize: new kakao.maps.Size(232, 99),
@@ -34,13 +34,25 @@ function Location() {
 	//렌더링에 관여하는 주요 state관리
 	const [map, setMap] = useState(null);
 	const [traffic, setTraffic] = useState(false);
-	const [index, setIndex] = useState(2);
+	const [index, setIndex] = useState(0);
 	const [mapInfo] = useState(info);
+
+	//트래픽활성 함수
+	const handleTraffic = () => {
+		if (map) {
+			traffic
+				? map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
+				: map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+		}
+	};
+
+	//처음 컴포넌트 생성시 한번반 실행
+	useEffect(() => {
+		frame.current.classList.add('on');
+	}, []);
 
 	//index state가 변경될때마다 지도 다시그리고 마커 다시 출력
 	useEffect(() => {
-		frame.current.classList.add('on');
-
 		//맵 화면 출력
 		const option = {
 			center: mapInfo[index].latlag,
@@ -63,15 +75,6 @@ function Location() {
 		setMap(mapInstance);
 	}, [index]);
 
-	//트래픽활성 함수
-	const handleTraffic = () => {
-		if (map) {
-			traffic
-				? map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
-				: map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
-		}
-	};
-
 	//traffic state가 변경될때마사 실행 트래픽 오버레이 레이어 표시
 	useEffect(() => {
 		handleTraffic();
@@ -90,10 +93,13 @@ function Location() {
 				</button>
 
 				<ul>
-					{/* 버튼 클릭시 index state 변경 */}
-					<li onClick={() => setIndex(0)}>송내역 보기</li>
-					<li onClick={() => setIndex(1)}>포스코 사거리 보기</li>
-					<li onClick={() => setIndex(2)}>청담역 보기</li>
+					{mapInfo.map((data, idx) => {
+						return (
+							<li key={idx} onClick={() => setIndex(idx)}>
+								{data.title}
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 		</section>
