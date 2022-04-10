@@ -73,6 +73,7 @@ function Location() {
 
 		//지도 위치 가운데 이동 함수
 		const mapInit = () => {
+			console.log('mapInit');
 			mapInstance.setCenter(mapInfo[index].latlag);
 		};
 
@@ -80,6 +81,10 @@ function Location() {
 		window.addEventListener('resize', mapInit);
 
 		setMap(mapInstance);
+
+		//해당 컴포넌트가 사라질때 window객체에 등록했던 mapInit핸들러 함수를 다시 제거해서
+		//불필요한 메모리 누수 방지
+		return () => window.removeEventListener('resize', mapInit);
 	}, [index]);
 
 	//traffic state가 변경될때마사 실행 트래픽 오버레이 레이어 표시
