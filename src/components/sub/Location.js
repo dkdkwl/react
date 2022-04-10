@@ -1,15 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 function Location() {
-	const frame = useRef(null);
-	const container = useRef(null);
 	const { kakao } = window;
-	const [map, setMap] = useState(null);
-	const [traffic, setTraffic] = useState(false);
-	//지점 데이터 정보의 순서값을 관리할 state
-	const [index, setIndex] = useState(2);
 	const path = process.env.PUBLIC_URL;
-
 	const info = [
 		{
 			title: '송내역',
@@ -34,16 +27,21 @@ function Location() {
 		},
 	];
 
-	const [mapInfo, setMapInfo] = useState(info);
+	//useRef로 가상DOM참조
+	const frame = useRef(null);
+	const container = useRef(null);
 
-	//index를 의존성으로 등록해서
-	//추후 지점 버튼 클릭시 index값이 변경되면
-	//변경된 index의 정보로 지도위치 다시 출력
+	//렌더링에 관여하는 주요 state관리
+	const [map, setMap] = useState(null);
+	const [traffic, setTraffic] = useState(false);
+	const [index, setIndex] = useState(2);
+	const [mapInfo] = useState(info);
+
+	//index state가 변경될때마다 지도 다시그리고 마커 다시 출력
 	useEffect(() => {
 		frame.current.classList.add('on');
 
 		//맵 화면 출력
-		//지도관련 데이터를 index state 순번의 지도가 출력되도록 수정
 		const option = {
 			center: mapInfo[index].latlag,
 			level: 3,
@@ -74,10 +72,12 @@ function Location() {
 		}
 	};
 
+	//traffic state가 변경될때마사 실행 트래픽 오버레이 레이어 표시
 	useEffect(() => {
 		handleTraffic();
 	}, [traffic]);
 
+	//state값 변경에 따라 렌더링될 가상DOM
 	return (
 		<section className='location' ref={frame}>
 			<div className='inner'>
