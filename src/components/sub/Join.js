@@ -3,19 +3,37 @@ import React, { useEffect, useRef, useState } from 'react';
 function Join() {
 	const frame = useRef(null);
 
-	//state로 관리할 초기 value
 	const initVal = {
 		userid: '',
 	};
 
-	//state에 초기value값 저장
 	const [val, setVal] = useState(initVal);
+	//input요소의 인증 실패시 출력될 에러메세지를 담을 state생성
+	const [err, setErr] = useState({});
 
-	//input상태값이 변경될때마다 실행할 함수
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setVal({ ...val, [name]: value });
-		console.log(val);
+	};
+
+	//에러메세지 객체를 반환하는 함수
+	const check = (val) => {
+		let errs = {};
+		if (val.userid.length < 5) {
+			errs.userid = '아이디를 5글자 이상 입력하세요';
+		}
+		return errs;
+	};
+
+	//전송이벤트 발생시 호출될 함수
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		//전송이벤트 발생시 현재 val state값의 userid값을
+		//check함수가 검사해서 인증통과하면 빈객체반환
+		//인증실패하면 userid키값으로 에러메세지 담아서 에러객체반환
+		//반환된 에러객체를 err state에 저장
+		setErr(check(val));
 	};
 
 	useEffect(() => {
@@ -27,7 +45,7 @@ function Join() {
 			<div className='inner'>
 				<h1>Membership</h1>
 				<article>
-					<form action=''>
+					<form onSubmit={handleSubmit}>
 						<fieldset>
 							<legend>회원가입 폼 양식</legend>
 							<table border='1'>
@@ -47,6 +65,12 @@ function Join() {
 												onChange={handleChange}
 											/>
 										</td>
+									</tr>
+									<tr>
+										<th colSpan='2'>
+											<input type='reset' value='cancel' />
+											<input type='submit' value='send' />
+										</th>
 									</tr>
 								</tbody>
 							</table>
