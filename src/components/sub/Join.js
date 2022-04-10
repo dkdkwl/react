@@ -11,6 +11,13 @@ function Join() {
 	//state에 초기value값 저장
 	const [val, setVal] = useState(initVal);
 
+	//input상태값이 변경될때마다 실행할 함수
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setVal({ ...val, [name]: value });
+		console.log(val);
+	};
+
 	useEffect(() => {
 		frame.current.classList.add('on');
 	}, []);
@@ -37,15 +44,7 @@ function Join() {
 												name='userid'
 												placeholder='아이디를 입력하세요'
 												value={val.userid}
-												onChange={(e) => {
-													const { name, value } = e.target;
-													//console.log(`name: ${name}, vale:${value}`);
-													//onChange발생시 기존 val state값을 현재 사용자가 입력하고 있는 값으로 갱신
-													setVal({ ...val, [name]: value });
-
-													//실제 변경된 state값이 input창에 출력
-													console.log(val);
-												}}
+												onChange={handleChange}
 											/>
 										</td>
 									</tr>
