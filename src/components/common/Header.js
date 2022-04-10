@@ -34,6 +34,11 @@ function Header(props) {
 						Location
 					</NavLink>
 				</li>
+				<li>
+					<NavLink activeStyle={active} to='/join'>
+						Join
+					</NavLink>
+				</li>
 			</ul>
 
 			<p className='menu'>
