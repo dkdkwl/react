@@ -53,7 +53,6 @@ function Location() {
 
 	//index state가 변경될때마다 지도 다시그리고 마커 다시 출력
 	useEffect(() => {
-		//맵 화면 출력
 		const option = {
 			center: mapInfo[index].latlag,
 			level: 3,
@@ -71,6 +70,14 @@ function Location() {
 				mapInfo[index].imgPos
 			),
 		});
+
+		//지도 위치 가운데 이동 함수
+		const mapInit = () => {
+			mapInstance.setCenter(mapInfo[index].latlag);
+		};
+
+		//브라우저 리사이즈 할때마다 mapInit함수를 계속 호출해서 화면 중앙값으로 갱신
+		window.addEventListener('resize', mapInit);
 
 		setMap(mapInstance);
 	}, [index]);
