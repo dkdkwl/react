@@ -48,8 +48,6 @@ function Location() {
 	}, []);
 
 	useEffect(() => {
-		//index state가 변경될때마다 #map안쪽에 계속해서 지도 인스턴스를 생성하면서 태그가 중첩되는 문제
-		//해결방법 - 기존 #map안쪽의 DOM을 제거해서 초기화하고 다시 지도 생성
 		container.current.innerHTML = '';
 
 		const option = {
@@ -73,6 +71,17 @@ function Location() {
 			console.log('mapInit');
 			mapInstance.setCenter(mapInfo[index].latlag);
 		};
+
+		//지도 컨트롤 타입 인스턴스 생성
+		const mapTypeControl = new kakao.maps.MapTypeControl();
+		mapInstance.addControl(
+			mapTypeControl,
+			kakao.maps.ControlPosition.BOTTOMRIGHT
+		);
+
+		//zoom컨트롤러 인스턴스 생성
+		const zoomControl = new kakao.maps.ZoomControl();
+		mapInstance.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 
 		window.addEventListener('resize', mapInit);
 		setMap(mapInstance);
