@@ -8,6 +8,7 @@ function Join() {
 		pwd2: '',
 		comments: '',
 		email: '',
+		gender: null
 	};
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
@@ -30,14 +31,17 @@ function Join() {
 			errs.pwd1 =
 				'비밀번호는 영문,숫자,특수문자를 포함한 5글자 이상으로 입력하세요.';
 		}
-		if( arg.pwd1 !== arg.pwd2 ){
-			errs.pwd2 = '두개의 비밀번호를 동일하게 입력하세요.'
+		if (arg.pwd1 !== arg.pwd2 || !arg.pwd2) {
+			errs.pwd2 = '두개의 비밀번호를 동일하게 입력하세요.';
 		}
 		if (arg.comments.length < 10) {
 			errs.comments = '남기는말은 10글자 이상 입력하세요';
 		}
 		if (arg.email.length < 5 || !/@./.test(arg.email)) {
 			errs.email = '이메일주소는 5글자이상 @ .을 포함해주세요.';
+		}
+		if(!arg.gender){
+			errs.gender='성별을 선택하세요';
 		}
 		return errs;
 	};
@@ -50,6 +54,12 @@ function Join() {
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setVal({ ...val, [name]: value });
+	};
+
+	const handleRadio = (e) => {
+		const {name} = e.target;
+		const isCheck = e.target.checked;
+		setVal({...val, [name]: isCheck})
 	};
 
 	const handleSubmit = (e) => {
@@ -117,7 +127,7 @@ function Join() {
 											value={val.pwd2}
 											onChange={handleChange}
 										/>
-										<span className="err">{err.pwd2}</span>
+										<span className='err'>{err.pwd2}</span>
 									</td>
 								</tr>
 								{/* email */}
@@ -135,6 +145,28 @@ function Join() {
 											onChange={handleChange}
 										/>
 										<span className='err'>{err.email}</span>
+									</td>
+								</tr>
+								{/* gender */}
+								<tr>
+									<th scope='row'>GENDER</th>
+									<td>
+										<label htmlFor='male'>Male</label>
+										<input
+											type='radio'
+											name='gender'
+											value='male'
+											onChange={handleRadio}
+										/>
+
+										<label htmlFor='female'>FeMale</label>
+										<input
+											type='radio'
+											name='gender'
+											value='female'
+											onChange={handleRadio}
+										/>
+										<span className="err">{err.gender}</span>
 									</td>
 								</tr>
 								{/* comments */}
