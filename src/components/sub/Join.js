@@ -18,7 +18,7 @@ function Join() {
 	const check = (arg) => {
 		const errs = {};
 		//입력된 아이디값이 5글자 이하면 에레메세지를 담아서 객체리턴
-		//입력된 아이디값이 5그라 이상이면 빈 에러객체를 리턴
+		//입력된 아이디값이 5글자 이상이면 빈 에러객체를 리턴
 		if(arg.userid.length < 5){
 			errs.userid = '아이디를 5글자 이상 입력하세요';
 		}
@@ -32,8 +32,7 @@ function Join() {
 		setErr(check(val));
 	}
 
-	//미션 - 인증이 통과되면 화면에 변화없음
-	//인증 실패시 인풋 옆에 에러메세지 출력
+	
 	useEffect(()=>{
 		console.log(err);
 	},[err]);
@@ -61,6 +60,7 @@ function Join() {
 												value={val.userid}
 												onChange={handleChange}
 											/>
+											<span className="err">{err.userid}</span>
 										</td>
 									</tr>
 									<tr>
