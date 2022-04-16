@@ -1,8 +1,19 @@
 import Layout from '../common/Layout';
+import {useState} from 'react'
 
 function Join() {
+	const initVal = {
+		userid: '',
+	}
+	const [val, setVal] = useState(initVal);
+
+	const handleChange = e =>{
+		const {name, value} = e.target;													
+		setVal({...val, [name]: value})
+	}
+
 	return (
-			//공통의 UI인 Layout컴포넌트로 Join전용 컨텐츠를 wrapping
+			
 			<Layout name={'Join'}>
 				<article>
 					<form>
@@ -21,6 +32,8 @@ function Join() {
 												id='userid'
 												name='userid'
 												placeholder='아이디를 입력하세요'
+												value={val.userid}
+												onChange={handleChange}
 											/>
 										</td>
 									</tr>
