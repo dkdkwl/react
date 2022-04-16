@@ -8,7 +8,8 @@ function Join() {
 		pwd2: '',
 		comments: '',
 		email: '',
-		gender: null
+		gender: null,
+		interests: null,
 	};
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
@@ -40,8 +41,11 @@ function Join() {
 		if (arg.email.length < 5 || !/@./.test(arg.email)) {
 			errs.email = '이메일주소는 5글자이상 @ .을 포함해주세요.';
 		}
-		if(!arg.gender){
-			errs.gender='성별을 선택하세요';
+		if (!arg.gender) {
+			errs.gender = '성별을 선택하세요';
+		}
+		if(!arg.interests) {
+			errs.interests = '관심사를 하나 이상 선택하세요'
 		}
 		return errs;
 	};
@@ -57,10 +61,22 @@ function Join() {
 	};
 
 	const handleRadio = (e) => {
-		const {name} = e.target;
+		const { name } = e.target;
 		const isCheck = e.target.checked;
-		setVal({...val, [name]: isCheck})
+		setVal({ ...val, [name]: isCheck });
 	};
+
+	const handleCheck = (e) => {
+		let isCheck = false;
+		const {name} = e.target;
+		const inputs = e.target.parentElement.querySelectorAll('input');
+
+		inputs.forEach((el)=>{
+			if(el.checked) isCheck=true;
+		})
+
+		setVal({...val, [name]: isCheck})
+	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -166,7 +182,40 @@ function Join() {
 											value='female'
 											onChange={handleRadio}
 										/>
-										<span className="err">{err.gender}</span>
+										<span className='err'>{err.gender}</span>
+									</td>
+								</tr>
+								{/* interests */}
+								<tr>
+									<th scope='row'>INTERESTS</th>
+									<td>
+										<label htmlFor='sports'>Sports</label>
+										<input
+											type='checkbox'
+											name='interests'
+											id='sports'
+											value='sports'
+											onChange={handleCheck}
+										/>
+
+										<label htmlFor='music'>Music</label>
+										<input
+											type='checkbox'
+											name='interests'
+											id='music'
+											value='music'
+											onChange={handleCheck}
+										/>
+
+										<label htmlFor='game'>Game</label>
+										<input
+											type='checkbox'
+											name='interests'
+											id='game'
+											value='game'
+											onChange={handleCheck}
+										/>
+										<span className="err">{err.interests}</span>
 									</td>
 								</tr>
 								{/* comments */}
