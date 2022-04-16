@@ -8,9 +8,10 @@ function Layout(props) {
   },[]);
 
   return (
-    <section ref={frame}>
+    <section ref={frame} className={props.name}>
       <div className="inner">
-        <h1>Title</h1>
+        <h1>{props.name}</h1>
+        {/* 해당 컴포넌트의 자식 요소를 호출 */}
         {props.children}
       </div>
     </section>

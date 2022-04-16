@@ -1,11 +1,10 @@
 import axios from 'axios';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Layout from '../common/Layout';
 
 function Gallery() {
-	const frame = useRef(null);
 	const [items, setItems] = useState([]);
 	const [isPop, setIsPop] = useState(false);
-	//목록의 순서값을 담을 state
 	const [index, setIndex] = useState(0);
 
 	const api_key = 'feb5dbb632085ee9e53c197d363d1a85';
@@ -14,8 +13,6 @@ function Gallery() {
 	const url = `https://www.flickr.com/services/rest/?method=${method}&api_key=${api_key}&format=json&nojsoncallback=1&per_page=${per_page}`;
 
 	useEffect(() => {
-		frame.current.classList.add('on');
-
 		axios
 			.get(url)
 			.then((json) => {
@@ -29,29 +26,26 @@ function Gallery() {
 
 	return (
 		<>
-			<section className='gallery' ref={frame}>
-				<div className='inner'>
-					<h1>Gallery</h1>
-					<ul>
-						{items.map((item, idx) => {
-							return (
-								<li
-									key={idx}
-									onClick={() => {
-										setIsPop(!isPop);
-										//리스트 클릭시 해당 리스트의 순서값으로 state변경
-										setIndex(idx);
-									}}>
-									<img
-										src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
-									/>
-									<h2>{item.title}</h2>
-								</li>
-							);
-						})}
-					</ul>
-				</div>
-			</section>
+			<Layout name={'Gallery'}>
+				<ul>
+					{items.map((item, idx) => {
+						return (
+							<li
+								key={idx}
+								onClick={() => {
+									setIsPop(!isPop);
+									//리스트 클릭시 해당 리스트의 순서값으로 state변경
+									setIndex(idx);
+								}}>
+								<img
+									src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
+								/>
+								<h2>{item.title}</h2>
+							</li>
+						);
+					})}
+				</ul>
+			</Layout>
 			{isPop ? <Popup /> : null}
 		</>
 	);

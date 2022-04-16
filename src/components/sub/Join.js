@@ -1,8 +1,9 @@
 import Layout from '../common/Layout';
 
 function Join() {
-	return (		
-			<Layout>
+	return (
+			//공통의 UI인 Layout컴포넌트로 Join전용 컨텐츠를 wrapping
+			<Layout name={'Join'}>
 				<article>
 					<form>
 						<fieldset>

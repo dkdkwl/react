@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Layout from '../common/Layout';
 
-function Youtube() {
-	const frame = useRef(null);
+function Youtube() {	
 	const [items, setItems] = useState([]);
 	const [isPop, setIsPop] = useState(false);
 	const [index, setIndex] = useState(0);
@@ -12,8 +12,6 @@ function Youtube() {
 	const url = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&playlistId=${play_list}&maxResults=3&part=snippet`;
 
 	useEffect(() => {
-		frame.current.classList.add('on');
-
 		axios.get(url).then((json) => {
 			console.log(json.data.items);
 			setItems(json.data.items);
@@ -22,35 +20,31 @@ function Youtube() {
 
 	return (
 		<>
-			<section className='youtube' ref={frame}>
-				<div className='inner'>
-					<h1>Youtube</h1>
-					{items.map((item, idx) => {
-						let desc = item.snippet.description;
-						let desc_len = desc.length;
-						let date = item.snippet.publishedAt;
+			<Layout name={'Youtube'}>				
+				{items.map((item, idx) => {
+					let desc = item.snippet.description;
+					let desc_len = desc.length;
+					let date = item.snippet.publishedAt;
 
-						return (
-							<article
-								key={idx}
-								onClick={() => {
-									setIsPop(!isPop);
-									setIndex(idx);
-								}}>
-								<div className='inner'>
-									<div className='pic'>
-										<img src={item.snippet.thumbnails.medium.url} />
-									</div>
-									<h2>{item.snippet.title}</h2>
-									<p>{desc_len > 200 ? desc.substr(0, 200) + '...' : desc}</p>
-									<span>{date.split('T')[0]}</span>
+					return (
+						<article
+							key={idx}
+							onClick={() => {
+								setIsPop(!isPop);
+								setIndex(idx);
+							}}>
+							<div className='inner'>
+								<div className='pic'>
+									<img src={item.snippet.thumbnails.medium.url} />
 								</div>
-							</article>
-						);
-					})}
-				</div>
-			</section>
-
+								<h2>{item.snippet.title}</h2>
+								<p>{desc_len > 200 ? desc.substr(0, 200) + '...' : desc}</p>
+								<span>{date.split('T')[0]}</span>
+							</div>
+						</article>
+					);
+				})}			
+			</Layout>
 			{isPop ? <Popup /> : null}
 		</>
 	);

@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import Layout from '../common/Layout';
 
 function Location() {
 	const { kakao } = window;
@@ -27,7 +28,6 @@ function Location() {
 		},
 	];
 
-	const frame = useRef(null);
 	const container = useRef(null);
 
 	const [map, setMap] = useState(null);
@@ -42,10 +42,6 @@ function Location() {
 				: map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 		}
 	};
-
-	useEffect(() => {
-		frame.current.classList.add('on');
-	}, []);
 
 	useEffect(() => {
 		container.current.innerHTML = '';
@@ -94,27 +90,25 @@ function Location() {
 	}, [traffic]);
 
 	return (
-		<section className='location' ref={frame}>
-			<div className='inner'>
-				<h1>Location</h1>
+		<Layout name={'Location'}>
+			<h1>Location</h1>
 
-				<div id='map' ref={container}></div>
+			<div id='map' ref={container}></div>
 
-				<button onClick={() => setTraffic(!traffic)}>
-					{traffic ? 'traffic ON' : 'traffic OFF'}
-				</button>
+			<button onClick={() => setTraffic(!traffic)}>
+				{traffic ? 'traffic ON' : 'traffic OFF'}
+			</button>
 
-				<ul>
-					{mapInfo.map((data, idx) => {
-						return (
-							<li key={idx} onClick={() => setIndex(idx)}>
-								{data.title}
-							</li>
-						);
-					})}
-				</ul>
-			</div>
-		</section>
+			<ul>
+				{mapInfo.map((data, idx) => {
+					return (
+						<li key={idx} onClick={() => setIndex(idx)}>
+							{data.title}
+						</li>
+					);
+				})}
+			</ul>
+		</Layout>
 	);
 }
 
