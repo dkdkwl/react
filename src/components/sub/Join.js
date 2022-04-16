@@ -1,8 +1,6 @@
 import Layout from '../common/Layout';
 import { useEffect, useState } from 'react';
 
-//미션 -이메일 항목을 만들고 (type=text) 5글자 이상 입력시 인증통과 그렇지 않으면 에러메세지 출력
-
 function Join() {
 	const initVal = {
 		userid: '',
@@ -25,7 +23,7 @@ function Join() {
 		if (arg.comments.length < 10) {
 			errs.comments = '남기는말은 10글자 이상 입력하세요';
 		}
-		if(arg.email.length < 5 || !/@./.test(val.email)){
+		if(arg.email.length < 5 || !/@./.test(arg.email)){
 			errs.email = '이메일주소는 5글자이상 @ .을 포함해주세요.'
 		}
 		return errs;
