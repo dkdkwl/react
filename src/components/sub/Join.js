@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 function Join() {
 	const initVal = {
 		userid: '',
+		pwd1: '',
+		pwd2: '',
 		comments: '',
 		email: '',
 	};
@@ -11,9 +13,25 @@ function Join() {
 	const [err, setErr] = useState({});
 
 	const check = (arg) => {
+		const eng = /[a-zA-Z]/;
+		const num = /[0-9]/;
+		const spc = /[~!@#$%^&*()_+\]]/;
+
 		const errs = {};
 		if (arg.userid.length < 5) {
 			errs.userid = '아이디를 5글자 이상 입력하세요';
+		}
+		if (
+			arg.pwd1.length < 5 ||
+			!eng.test(arg.pwd1) ||
+			!num.test(arg.pwd1) ||
+			!spc.test(arg.pwd1)
+		) {
+			errs.pwd1 =
+				'비밀번호는 영문,숫자,특수문자를 포함한 5글자 이상으로 입력하세요.';
+		}
+		if( arg.pwd1 !== arg.pwd2 ){
+			errs.pwd2 = '두개의 비밀번호를 동일하게 입력하세요.'
 		}
 		if (arg.comments.length < 10) {
 			errs.comments = '남기는말은 10글자 이상 입력하세요';
@@ -67,6 +85,39 @@ function Join() {
 											onChange={handleChange}
 										/>
 										<span className='err'>{err.userid}</span>
+									</td>
+								</tr>
+								{/* password */}
+								<tr>
+									<th scope='row'>
+										<label htmlFor='pwd1'>PASSWORD</label>
+									</th>
+									<td>
+										<input
+											type='password'
+											name='pwd1'
+											id='pwd1'
+											placeholder='비밀번호를 입력하세요'
+											value={val.pwd1}
+											onChange={handleChange}
+										/>
+										<span className='err'>{err.pwd1}</span>
+									</td>
+								</tr>
+								<tr>
+									<th scope='row'>
+										<label htmlFor='pwd2'>RE-PASSWORD</label>
+									</th>
+									<td>
+										<input
+											type='password'
+											name='pwd2'
+											id='pwd2'
+											placeholder='비밀번호를 재 입력하세요'
+											value={val.pwd2}
+											onChange={handleChange}
+										/>
+										<span className="err">{err.pwd2}</span>
 									</td>
 								</tr>
 								{/* email */}
