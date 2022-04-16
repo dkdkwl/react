@@ -5,15 +5,10 @@ function Join() {
 	const initVal = {
 		userid: '',
 		comments: '',
-		email: ''
+		email: '',
 	};
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
-
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setVal({ ...val, [name]: value });
-	};
 
 	const check = (arg) => {
 		const errs = {};
@@ -23,10 +18,20 @@ function Join() {
 		if (arg.comments.length < 10) {
 			errs.comments = '남기는말은 10글자 이상 입력하세요';
 		}
-		if(arg.email.length < 5 || !/@./.test(arg.email)){
-			errs.email = '이메일주소는 5글자이상 @ .을 포함해주세요.'
+		if (arg.email.length < 5 || !/@./.test(arg.email)) {
+			errs.email = '이메일주소는 5글자이상 @ .을 포함해주세요.';
 		}
 		return errs;
+	};
+
+	const handleReset = () => {
+		setVal(initVal);
+		setErr({});
+	};
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setVal({ ...val, [name]: value });
 	};
 
 	const handleSubmit = (e) => {
@@ -78,7 +83,7 @@ function Join() {
 											value={val.email}
 											onChange={handleChange}
 										/>
-										<span className="err">{err.email}</span>
+										<span className='err'>{err.email}</span>
 									</td>
 								</tr>
 								{/* comments */}
@@ -101,7 +106,7 @@ function Join() {
 								{/* btnSet */}
 								<tr>
 									<th colSpan='2'>
-										<input type='reset' value='cancel' />
+										<input type='reset' value='cancel' onClick={handleReset} />
 										<input type='submit' value='send' />
 									</th>
 								</tr>
