@@ -11,6 +11,17 @@ function Community() {
 	];
 	const [posts, setPosts] = useState(dummyPosts);
 
+  const resetPosts  = () =>{
+    input.current.value='';
+    textarea.current.value='';
+  }
+  const createPosts = () => {
+    setPosts([
+      { title: input.current.value, content: textarea.current.value },
+      ...posts,
+    ]);
+  }
+
 	return (
 		<Layout name={'Community'}>
 			<div className='inputBox'>
@@ -27,16 +38,8 @@ function Community() {
           ref={textarea}
         ></textarea>
 				<br />
-				<button>cancel</button>
-				<button
-					onClick={() => {
-						setPosts([
-							{ title: input.current.value, content: textarea.current.value },
-							...posts,
-						]);
-					}}>
-					create
-				</button>
+				<button onClick={resetPosts}>cancel</button>
+				<button onClick={createPosts}>create</button>
 			</div>
 
 			<div className='showBox'>
