@@ -8,8 +8,8 @@ function Join() {
 		pwd2: '',
 		comments: '',
 		email: '',
-		gender: null,
-		interests: null,
+		gender: false,
+		interests: false,
 		edu: null
 	};
 	const [val, setVal] = useState(initVal);
@@ -106,6 +106,7 @@ function Join() {
 		if(len === 0 && isSubmit){
 			//폼인증 완료처리
 			setSuccess(true);
+			setVal(initVal);
 		}else{
 			setSuccess(false);
 		}
