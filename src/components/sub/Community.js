@@ -20,16 +20,22 @@ function Community() {
     textarea.current.value='';
   }
   const createPosts = () => {
+    const inputVal = input.current.value.trim();
+    const textareaVal = textarea.current.value.trim();
+
+    if( !inputVal || !textareaVal ){
+      alert('제목과 본문을 모두 입력하세요');
+      return;
+    }
+
     setPosts([
-      { title: input.current.value, content: textarea.current.value },
+      { title: inputVal, content: textareaVal },
       ...posts,
     ]);
   }
 
-  const deleletPosts = (idx) =>{
-    console.log('삭제할 요소 순서',idx);               
-    setPosts(
-      //인수로 전달받은 삭제할 요소 순번과 현재반복도는 요소의 순번이 같으면 해당 값을 반환
+  const deleletPosts = (idx) =>{                
+    setPosts(     
       posts.filter((post, index) => index !== idx)
     );
   }
