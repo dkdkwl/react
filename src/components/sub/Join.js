@@ -1,7 +1,7 @@
 import Layout from '../common/Layout';
 import { useEffect, useState } from 'react';
 
-function Join() {
+function Join({history}) {
 	const initVal = {
 		userid: '',
 		pwd1: '',
@@ -15,7 +15,6 @@ function Join() {
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
 	const [success, setSuccess] = useState(false);
-	//전송 버튼 클릭 유무의 결과값을 담을 state생성
 	const [isSubmit, setIsSubmit] = useState(false);
 
 	const check = (arg) => {
@@ -56,6 +55,7 @@ function Join() {
 		}
 		return errs;
 	};
+	
 
 	const handleReset = () => {
 		setVal(initVal);
@@ -98,15 +98,14 @@ function Join() {
 	};
 
 	useEffect(() => {
-		console.log(err);
-		//err객체의 key을 구해서 갯수값 저장
+		console.log(err);	
 		const len = Object.keys(err).length;
 
-		//에러객체내용이 없고 전송버튼이 클릭되면
 		if(len === 0 && isSubmit){
 			//폼인증 완료처리
-			setSuccess(true);
-			setVal(initVal);
+			setSuccess(true);	
+			//인증이 완료되면 메인 컴포넌트로 라우터 이동
+			history.push('/');	
 		}else{
 			setSuccess(false);
 		}
@@ -114,8 +113,7 @@ function Join() {
 
 
 	return (
-		<Layout name={'Join'}>
-			{/* success값이 true일때 성공 메세지 출력 */}
+		<Layout name={'Join'}>	
 			{success ? <h2>회원가입을 축하합니다.</h2> : null}
 			<article>
 				<form onSubmit={handleSubmit}>
