@@ -14,6 +14,7 @@ function Join() {
 	};
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
+	const [success, setSuccess] = useState(false);
 
 	const check = (arg) => {
 		const eng = /[a-zA-Z]/;
@@ -48,7 +49,7 @@ function Join() {
 		if(!arg.interests) {
 			errs.interests = '관심사를 하나 이상 선택하세요'
 		}
-		if(arg.edu==='' || arg.edu === null){
+		if(!arg.edu){
 			errs.edu = '최종학력을 선택하세요.'
 		}
 		return errs;
@@ -82,15 +83,10 @@ function Join() {
 		setVal({...val, [name]: isCheck})
 	}
 
-	const handleSelect = (e) => {
-		//선택한 select요소의 name값을 저장
+	const handleSelect = (e) => {	
 		const {name} = e.target;
-		//선택한 요소의 자식인 option들 중에서 
-		//선택한 순번의 option요소 value값 저장
-		const isSelected = e.target.options[e.target.selectedIndex].value;
-		//위의 name값에 value값을 담아서 val 스테이트를 저장
+		const isSelected = e.target.options[e.target.selectedIndex].value;	
 		setVal({...val, [name]: isSelected});
-		
 	}
 
 	const handleSubmit = (e) => {
@@ -100,14 +96,19 @@ function Join() {
 
 	useEffect(() => {
 		console.log(err);
+		//err객체의 key을 구해서 갯수값 저장
+		const len = Object.keys(err).length;
+		if(len === 0){
+			setSuccess(true);
+		}else{
+			setSuccess(false);
+		}
 	}, [err]);
 
-	useEffect(()=>{
-		console.log(val);
-	},[val])
 
 	return (
 		<Layout name={'Join'}>
+			{success ? <h2>회원가입을 축하합니다.</h2> : null}
 			<article>
 				<form onSubmit={handleSubmit}>
 					<fieldset>
