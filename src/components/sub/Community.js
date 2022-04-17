@@ -1,10 +1,18 @@
-import React from 'react'
 import Layout from '../common/Layout';
+import {useState, useEffect, useRef} from 'react';
+
 
 function Community() {
   return (
     <Layout name={'Community'}>
-      커뮤니티 페이지 입니다.
+      <div className="inputBox">
+        <input type="text" placeholder='제목을 입력하세요' /><br />
+        <textarea cols="30" rows="10" placeholder='본문을 입력하세요'></textarea><br />
+        <button>cancel</button>
+        <button>create</button>
+      </div>
+
+      <div className="showBox"></div>
     </Layout>
   )
 }
