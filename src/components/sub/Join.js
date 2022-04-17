@@ -15,6 +15,8 @@ function Join() {
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
 	const [success, setSuccess] = useState(false);
+	//전송 버튼 클릭 유무의 결과값을 담을 state생성
+	const [isSubmit, setIsSubmit] = useState(false);
 
 	const check = (arg) => {
 		const eng = /[a-zA-Z]/;
@@ -92,13 +94,17 @@ function Join() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setErr(check(val));
+		setIsSubmit(true);
 	};
 
 	useEffect(() => {
 		console.log(err);
 		//err객체의 key을 구해서 갯수값 저장
 		const len = Object.keys(err).length;
-		if(len === 0){
+
+		//에러객체내용이 없고 전송버튼이 클릭되면
+		if(len === 0 && isSubmit){
+			//폼인증 완료처리
 			setSuccess(true);
 		}else{
 			setSuccess(false);
@@ -108,6 +114,7 @@ function Join() {
 
 	return (
 		<Layout name={'Join'}>
+			{/* success값이 true일때 성공 메세지 출력 */}
 			{success ? <h2>회원가입을 축하합니다.</h2> : null}
 			<article>
 				<form onSubmit={handleSubmit}>
