@@ -7,23 +7,11 @@ function Community() {
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
 
-	//기존 로컬저장소의 문자값을 가져와서 파싱한다음 해당 데이터 반환
-	const getLocalData = () => {
-		const dummyPosts = [
-			{ title: 'Hello6', content: 'Here comes description in detail.' },
-			{ title: 'Hello5', content: 'Here comes description in detail.' },
-			{ title: 'Hello4', content: 'Here comes description in detail.' },
-			{ title: 'Hello3', content: 'Here comes description in detail.' },
-			{ title: 'Hello2', content: 'Here comes description in detail.' },
-			{ title: 'Hello1', content: 'Here comes description in detail.' },
-		];
-		const data = localStorage.getItem('posts');
+	//순서4- 메인컴포넌트에서 로컬저장소에 저장된 데이터를 다시 state에 옮겨담음
+	let data = localStorage.getItem('posts');
+	data = JSON.parse(data);
 
-		if (data) return JSON.parse(data);
-		else return dummyPosts;
-	};
-
-	const [posts, setPosts] = useState(getLocalData);
+	const [posts, setPosts] = useState(data);
 	const [allowed, setAllowed] = useState(true);
 
 	const resetPosts = () => {
@@ -87,6 +75,7 @@ function Community() {
 		);
 	};
 
+	//순서5- 해당 컴포넌트에서 CRUD로 데이터 변경이 일어날때마다 다시 로컬저장소에 저장
 	useEffect(() => {
 		localStorage.setItem('posts', JSON.stringify(posts));
 	}, [posts]);
@@ -108,6 +97,7 @@ function Community() {
 
 			<div className='showBox'>
 				{posts.map((post, idx) => {
+					//순서6 - 변경된 데이터로 다시 리스트 출력
 					return (
 						<article key={idx}>
 							{post.enableUpdate ? (
