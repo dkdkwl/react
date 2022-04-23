@@ -7,27 +7,24 @@ function Community() {
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
 
-	/*
-	const dummyPosts = [
-		{ title: 'Hello6', content: 'Here comes description in detail.' },
-		{ title: 'Hello5', content: 'Here comes description in detail.' },
-		{ title: 'Hello4', content: 'Here comes description in detail.' },
-		{ title: 'Hello3', content: 'Here comes description in detail.' },
-		{ title: 'Hello2', content: 'Here comes description in detail.' },
-		{ title: 'Hello1', content: 'Here comes description in detail.' },
-	];
-	*/
 	//기존 로컬저장소의 문자값을 가져와서 파싱한다음 해당 데이터 반환
 	const getLocalData = () => {
+		const dummyPosts = [
+			{ title: 'Hello6', content: 'Here comes description in detail.' },
+			{ title: 'Hello5', content: 'Here comes description in detail.' },
+			{ title: 'Hello4', content: 'Here comes description in detail.' },
+			{ title: 'Hello3', content: 'Here comes description in detail.' },
+			{ title: 'Hello2', content: 'Here comes description in detail.' },
+			{ title: 'Hello1', content: 'Here comes description in detail.' },
+		];
 		const data = localStorage.getItem('posts');
-		return JSON.parse(data);
+
+		if (data) return JSON.parse(data);
+		else return dummyPosts;
 	};
 
-	//처음 컴포넌트가 실행되자마자 로컬저장소로부터 반환된 값으로 posts값 초기화
 	const [posts, setPosts] = useState(getLocalData);
 	const [allowed, setAllowed] = useState(true);
-
-	//localStorage의 데이터를 반환하는 함수
 
 	const resetPosts = () => {
 		input.current.value = '';
@@ -91,7 +88,6 @@ function Community() {
 	};
 
 	useEffect(() => {
-		//posts값이 변경될때마다 해당 state를 문자열로 변환해서 로컬저장소에 저장
 		localStorage.setItem('posts', JSON.stringify(posts));
 	}, [posts]);
 
