@@ -61,6 +61,10 @@ function Community() {
 
 	//post 수정함수
 	const updatePost = (index) => {
+		if (!editInput.current.value.trim() || !editTextarea.current.value.trim()) {
+			alert('수정할 제목과 본문을 입력하세요.');
+			return;
+		}
 		setPosts(
 			posts.map((post, idx) => {
 				if (idx === index) {
