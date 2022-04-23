@@ -7,6 +7,7 @@ function Community() {
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
 
+	/*
 	const dummyPosts = [
 		{ title: 'Hello6', content: 'Here comes description in detail.' },
 		{ title: 'Hello5', content: 'Here comes description in detail.' },
@@ -15,9 +16,18 @@ function Community() {
 		{ title: 'Hello2', content: 'Here comes description in detail.' },
 		{ title: 'Hello1', content: 'Here comes description in detail.' },
 	];
-	const [posts, setPosts] = useState(dummyPosts);
-	//중복 수정을 막을 state추가
+	*/
+	//기존 로컬저장소의 문자값을 가져와서 파싱한다음 해당 데이터 반환
+	const getLocalData = () => {
+		const data = localStorage.getItem('posts');
+		return JSON.parse(data);
+	};
+
+	//처음 컴포넌트가 실행되자마자 로컬저장소로부터 반환된 값으로 posts값 초기화
+	const [posts, setPosts] = useState(getLocalData);
 	const [allowed, setAllowed] = useState(true);
+
+	//localStorage의 데이터를 반환하는 함수
 
 	const resetPosts = () => {
 		input.current.value = '';
@@ -41,9 +51,7 @@ function Community() {
 		setPosts(posts.filter((_, index) => index !== idx));
 	};
 
-	//수정모드 변경함수
 	const enableUpdate = (index) => {
-		//수정모드에 진입시 수정버튼 클릭 방지
 		setAllowed(false);
 		setPosts(
 			posts.map((post, idx) => {
@@ -53,9 +61,7 @@ function Community() {
 		);
 	};
 
-	//출력모드 변경함수
 	const diableUpdate = (index) => {
-		//수정취소시 다시 allowed true로 변경
 		setAllowed(true);
 		setPosts(
 			posts.map((post, idx) => {
@@ -65,13 +71,11 @@ function Community() {
 		);
 	};
 
-	//post 수정함수
 	const updatePost = (index) => {
 		if (!editInput.current.value.trim() || !editTextarea.current.value.trim()) {
 			alert('수정할 제목과 본문을 입력하세요.');
 			return;
 		}
-		//수정완료시 다시 allowed true로 변경
 		setAllowed(true);
 
 		setPosts(
@@ -87,7 +91,8 @@ function Community() {
 	};
 
 	useEffect(() => {
-		console.log(posts);
+		//posts값이 변경될때마다 해당 state를 문자열로 변환해서 로컬저장소에 저장
+		localStorage.setItem('posts', JSON.stringify(posts));
 	}, [posts]);
 
 	return (
@@ -110,7 +115,6 @@ function Community() {
 					return (
 						<article key={idx}>
 							{post.enableUpdate ? (
-								//반복도는 해당 포스트의 enableUpdate값이 true면 수정모드
 								<>
 									<input
 										type='text'
@@ -127,14 +131,12 @@ function Community() {
 									<button onClick={() => updatePost(idx)}>save</button>
 								</>
 							) : (
-								//반복도는 해당 포스트의 enableUpdate값이 false면 출력
 								<>
 									<h2>{post.title}</h2>
 									<p>{post.content}</p>
 
 									<button
 										onClick={() => {
-											//allowed값이 true일때에만 수정모드 변경가능
 											if (allowed) enableUpdate(idx);
 										}}>
 										edit
