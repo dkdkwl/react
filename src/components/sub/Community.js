@@ -70,11 +70,27 @@ function Community() {
 				{posts.map((post, idx) => {
 					return (
 						<article key={idx}>
-							<h2>{post.title}</h2>
-							<p>{post.content}</p>
+							{post.enableUpdate ? (
+								//반복도는 해당 포스트의 enableUpdate값이 true면 수정모드
+								<>
+									<input type='text' defaultValue={post.title} />
+									<br />
+									<textarea defaultValue={post.content}></textarea>
+									<br />
 
-							<button onClick={() => enableUpdate(idx)}>edit</button>
-							<button onClick={() => deleletPosts(idx)}>delete</button>
+									<button>cancel</button>
+									<button>save</button>
+								</>
+							) : (
+								//반복도는 해당 포스트의 enableUpdate값이 false면 출력
+								<>
+									<h2>{post.title}</h2>
+									<p>{post.content}</p>
+
+									<button onClick={() => enableUpdate(idx)}>edit</button>
+									<button onClick={() => deleletPosts(idx)}>delete</button>
+								</>
+							)}
 						</article>
 					);
 				})}
