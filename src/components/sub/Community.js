@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 function Community() {
 	const input = useRef(null);
 	const textarea = useRef(null);
+	const editInput = useRef(null);
+	const editTextarea = useRef(null);
 
 	const dummyPosts = [
 		{ title: 'Hello6', content: 'Here comes description in detail.' },
@@ -47,6 +49,30 @@ function Community() {
 		);
 	};
 
+	//출력모드 변경함수
+	const diableUpdate = (index) => {
+		setPosts(
+			posts.map((post, idx) => {
+				if (idx === index) post.enableUpdate = false;
+				return post;
+			})
+		);
+	};
+
+	//post 수정함수
+	const updatePost = (index) => {
+		setPosts(
+			posts.map((post, idx) => {
+				if (idx === index) {
+					post.title = editInput.current.value;
+					post.content = editTextarea.current.value;
+					post.enableUpdate = false;
+				}
+				return post;
+			})
+		);
+	};
+
 	useEffect(() => {
 		console.log(posts);
 	}, [posts]);
@@ -73,13 +99,19 @@ function Community() {
 							{post.enableUpdate ? (
 								//반복도는 해당 포스트의 enableUpdate값이 true면 수정모드
 								<>
-									<input type='text' defaultValue={post.title} />
+									<input
+										type='text'
+										defaultValue={post.title}
+										ref={editInput}
+									/>
 									<br />
-									<textarea defaultValue={post.content}></textarea>
+									<textarea
+										defaultValue={post.content}
+										ref={editTextarea}></textarea>
 									<br />
 
-									<button>cancel</button>
-									<button>save</button>
+									<button onClick={() => diableUpdate(idx)}>cancel</button>
+									<button onClick={() => updatePost(idx)}>save</button>
 								</>
 							) : (
 								//반복도는 해당 포스트의 enableUpdate값이 false면 출력
