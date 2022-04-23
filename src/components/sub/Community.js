@@ -67,12 +67,13 @@ function Community() {
 
 	//post 수정함수
 	const updatePost = (index) => {
-		//수정완료시 다시 allowed true로 변경
-		setAllowed(true);
 		if (!editInput.current.value.trim() || !editTextarea.current.value.trim()) {
 			alert('수정할 제목과 본문을 입력하세요.');
 			return;
 		}
+		//수정완료시 다시 allowed true로 변경
+		setAllowed(true);
+
 		setPosts(
 			posts.map((post, idx) => {
 				if (idx === index) {
