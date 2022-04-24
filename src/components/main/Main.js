@@ -1,18 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../common/Header';
 import Visual from './Visual';
 import News from './News';
 import Pics from './Pics';
 import Vids from './Vids';
 import Btns from './Btns';
+import Anime from '../../class/anim';
 
 function Main() {
-	console.log('main');
 	const main = useRef(null);
 	const pos = useRef([]);
-	//useRef는 가상돔을 참조할때도 쓰이지만
-	//특정 값을 컴포넌트가 재 랜더링되더라도 값을 유지시켜야 될때
-	//특정 값이 변경이 되더라도 컴포넌트를 다시 재 랜더링 시키면 안될때
+	const [index, setIndex] = useState(0);
 
 	//각 섹션의 세로 위치값 반환함수
 	const getPos = () => {
@@ -27,6 +25,14 @@ function Main() {
 		return () => window.removeEventListener('resize', getPos);
 	}, []);
 
+	useEffect(() => {
+		new Anime(window, {
+			prop: 'scroll',
+			value: pos.current[index],
+			duration: 500,
+		});
+	}, [index]);
+
 	return (
 		<>
 			<main ref={main}>
@@ -35,7 +41,7 @@ function Main() {
 				<News />
 				<Pics />
 				<Vids />
-				<Btns />
+				<Btns setIndex={setIndex} />
 			</main>
 		</>
 	);
