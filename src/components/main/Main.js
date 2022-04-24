@@ -7,24 +7,23 @@ import Vids from './Vids';
 import Btns from './Btns';
 
 function Main() {
+	console.log('main');
 	const main = useRef(null);
+	const pos = useRef([]);
+	//useRef는 가상돔을 참조할때도 쓰이지만
+	//특정 값을 컴포넌트가 재 랜더링되더라도 값을 유지시켜야 될때
+	//특정 값이 변경이 되더라도 컴포넌트를 다시 재 랜더링 시키면 안될때
 
 	//각 섹션의 세로 위치값 반환함수
 	const getPos = () => {
+		pos.current = [];
 		const secs = main.current.querySelectorAll('.myScroll');
-		const pos = [];
-		for (const sec of secs) pos.push(sec.offsetTop);
-		console.log(pos);
+		for (const sec of secs) pos.current.push(sec.offsetTop);
 	};
 
 	useEffect(() => {
-		//첨  로딩시 세로 위치값 반환
 		getPos();
-
-		//브라우저 리사이즈시 갱신된 세로 위치값 반환
 		window.addEventListener('resize', getPos);
-
-		//해당 컴포넌트가 unmount시 window 전역에 등록된 getPos함수 제거
 		return () => window.removeEventListener('resize', getPos);
 	}, []);
 
