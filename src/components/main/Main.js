@@ -12,19 +12,39 @@ function Main() {
 	const pos = useRef([]);
 	const [index, setIndex] = useState(0);
 
-	//각 섹션의 세로 위치값 반환함수
+	//섹션들의 세로 위치값 반환함수
 	const getPos = () => {
 		pos.current = [];
 		const secs = main.current.querySelectorAll('.myScroll');
 		for (const sec of secs) pos.current.push(sec.offsetTop);
 	};
 
+	//버튼 활성화 함수
+	const activation = () => {
+		let scroll = window.scrollY;
+		const btns = main.current.querySelectorAll('.btns li');
+
+		pos.current.map((pos, idx) => {
+			if (scroll >= pos) {
+				for (const btn of btns) btn.classList.remove('on');
+				btns[idx].classList.add('on');
+			}
+		});
+	};
+
+	//윈도우 이벤트 등록
 	useEffect(() => {
 		getPos();
 		window.addEventListener('resize', getPos);
-		return () => window.removeEventListener('resize', getPos);
+		window.addEventListener('scroll', activation);
+
+		return () => {
+			window.removeEventListener('resize', getPos);
+			window.removeEventListener('scroll', activation);
+		};
 	}, []);
 
+	//순서값에 따라 스크롤 모션
 	useEffect(() => {
 		new Anime(window, {
 			prop: 'scroll',
