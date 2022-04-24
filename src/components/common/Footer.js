@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Footer() {
-	return <footer>Footer</footer>;
+	return <footer>2022 DCODELAB &copy; ALL RIGHTS RESERVED.</footer>;
 }
 
 export default Footer;

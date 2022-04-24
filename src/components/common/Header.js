@@ -4,7 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 function Header(props) {
-	const active = { color: 'aqua' };
+	let active = null;
+	props.type === 'main'
+		? (active = { color: '#fff' })
+		: (active = { color: 'aqua' });
+
 	return (
 		<header className={props.type}>
 			<h1>
