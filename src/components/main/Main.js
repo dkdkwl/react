@@ -21,11 +21,12 @@ function Main() {
 
 	//버튼 활성화 함수
 	const activation = () => {
+		const base = -200;
 		let scroll = window.scrollY;
 		const btns = main.current.querySelectorAll('.btns li');
 
 		pos.current.map((pos, idx) => {
-			if (scroll >= pos) {
+			if (scroll >= pos + base) {
 				for (const btn of btns) btn.classList.remove('on');
 				btns[idx].classList.add('on');
 			}
