@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function Content() {
+function News() {
 	const getLocalData = () => {
 		const dummyPosts = [
 			{ title: 'Hello6', content: 'Here comes description in detail.' },
@@ -23,7 +23,8 @@ function Content() {
 	}, [posts]);
 
 	return (
-		<main>
+		<section id='news'>
+			<h1>Recent Posts</h1>
 			{posts.map((post, idx) => {
 				if (idx < 3) {
 					return (
@@ -34,8 +35,8 @@ function Content() {
 					);
 				}
 			})}
-		</main>
+		</section>
 	);
 }
 
-export default Content;
+export default News;
