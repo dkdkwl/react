@@ -18,7 +18,7 @@ function App() {
 				<Route exact path='/' component={Main}></Route>
 
 				<Route path='/'>
-					<Header type={'sub'} />1
+					<Header type={'sub'} />222
 				</Route>
 			</Switch>
 
