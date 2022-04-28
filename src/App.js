@@ -18,7 +18,7 @@ function App() {
 				<Route exact path='/' component={Main}></Route>
 
 				<Route path='/'>
-					<Header type={'sub'} />
+					<Header type={'sub'} />1
 				</Route>
 			</Switch>
 
